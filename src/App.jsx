@@ -7,9 +7,11 @@ import { TVShowDetail } from "./components/TVShowDetail/TVShowDetail";
 import { Logo } from "./components/Logo/Logo";
 import logo from "./assets/images/logo.png";
 import { TVShowListItem } from "./components/TVShowListItem/TVShowListItem";
+import { TVShowList } from "./components/TVShowList/TVShowList";
 
 export function App() {
   const [currentTVShow, setcurrentTVShow] = useState();
+  const [recommendationList, setRecommendationList] = useState([]);
 
   async function fetchPopulars() {
     const populars = await TVShowAPI.fetchPopulars();
@@ -17,9 +19,23 @@ export function App() {
       setcurrentTVShow(populars[0]);
     }
   }
+
+  async function fetchRecommendations(tvShowId) {
+    const recommendations = await TVShowAPI.fetchRecommendations(tvShowId);
+    if (recommendations.length > 0) {
+      setRecommendationList(recommendations.slice(0, 10));
+    }
+  }
+
   useEffect(() => {
     fetchPopulars();
   }, []);
+
+  useEffect(() => {
+    if (currentTVShow) {
+      fetchRecommendations(currentTVShow.id);
+    }
+  }, [currentTVShow]);
 
   function setCurrentTvShowFromRecommendations(tvShow) {
     alert(JSON.stringify(tvShow));
@@ -52,25 +68,8 @@ export function App() {
         {currentTVShow && <TVShowDetail tvShow={currentTVShow} />}
       </div>
       <div className={s.recommendations}>
-        {currentTVShow && (
-          <>
-            <TVShowListItem
-              onClick={setCurrentTvShowFromRecommendations}
-              tvShow={currentTVShow}
-            />
-            <TVShowListItem
-              onClick={setCurrentTvShowFromRecommendations}
-              tvShow={currentTVShow}
-            />
-            <TVShowListItem
-              onClick={setCurrentTvShowFromRecommendations}
-              tvShow={currentTVShow}
-            />
-            <TVShowListItem
-              onClick={setCurrentTvShowFromRecommendations}
-              tvShow={currentTVShow}
-            />
-          </>
+        {recommendationList && recommendationList.length > 0 && (
+          <TVShowList tvShowList={recommendationList} />
         )}
       </div>
     </div>

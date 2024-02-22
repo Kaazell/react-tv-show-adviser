@@ -10,13 +10,13 @@ import { TVShowListItem } from "./components/TVShowListItem/TVShowListItem";
 import { TVShowList } from "./components/TVShowList/TVShowList";
 
 export function App() {
-  const [currentTVShow, setcurrentTVShow] = useState();
+  const [currentTVShow, setCurrentTVShow] = useState();
   const [recommendationList, setRecommendationList] = useState([]);
 
   async function fetchPopulars() {
     const populars = await TVShowAPI.fetchPopulars();
     if (populars.length > 0) {
-      setcurrentTVShow(populars[0]);
+      setCurrentTVShow(populars[0]);
     }
   }
 
@@ -69,7 +69,10 @@ export function App() {
       </div>
       <div className={s.recommendations}>
         {recommendationList && recommendationList.length > 0 && (
-          <TVShowList tvShowList={recommendationList} />
+          <TVShowList
+            onClickItem={setCurrentTVShow}
+            tvShowList={recommendationList}
+          />
         )}
       </div>
     </div>

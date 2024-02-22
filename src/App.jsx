@@ -4,6 +4,9 @@ import "./global.css";
 import s from "./style.module.css";
 import { BACKDROP_BASE_URL } from "./config";
 import { TVShowDetail } from "./components/TVShowDetail/TVShowDetail";
+import { Logo } from "./components/Logo/Logo";
+import logo from "./assets/images/logo.png";
+import { TVShowListItem } from "./components/TVShowListItem/TVShowListItem";
 
 export function App() {
   const [currentTVShow, setcurrentTVShow] = useState();
@@ -18,7 +21,10 @@ export function App() {
     fetchPopulars();
   }, []);
 
-  console.log("***", currentTVShow);
+  function setCurrentTvShowFromRecommendations(tvShow) {
+    alert(JSON.stringify(tvShow));
+  }
+
   return (
     <div
       className={s.main_container}
@@ -31,8 +37,11 @@ export function App() {
       <div className={s.header}>
         <div className="row">
           <div className="col-4">
-            <div>Logo</div>
-            <div>Subtitle</div>
+            <Logo
+              image={logo}
+              title="Watowatch"
+              subtitle="Find a show you may like"
+            />
           </div>
           <div className="col-md-12 col-md-4">
             <input style={{ width: "100%" }} type="text" />
@@ -42,7 +51,28 @@ export function App() {
       <div className={s.tv_show_detail}>
         {currentTVShow && <TVShowDetail tvShow={currentTVShow} />}
       </div>
-      <div className={s.recommendations}>Recommendations</div>
+      <div className={s.recommendations}>
+        {currentTVShow && (
+          <>
+            <TVShowListItem
+              onClick={setCurrentTvShowFromRecommendations}
+              tvShow={currentTVShow}
+            />
+            <TVShowListItem
+              onClick={setCurrentTvShowFromRecommendations}
+              tvShow={currentTVShow}
+            />
+            <TVShowListItem
+              onClick={setCurrentTvShowFromRecommendations}
+              tvShow={currentTVShow}
+            />
+            <TVShowListItem
+              onClick={setCurrentTvShowFromRecommendations}
+              tvShow={currentTVShow}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { Logo } from "./components/Logo/Logo";
 import logo from "./assets/images/logo.png";
 import { TVShowListItem } from "./components/TVShowListItem/TVShowListItem";
 import { TVShowList } from "./components/TVShowList/TVShowList";
+import { SearchBar } from "./components/SearchBar/SearchBar";
 
 export function App() {
   const [currentTVShow, setCurrentTVShow] = useState();
@@ -59,8 +60,8 @@ export function App() {
               subtitle="Find a show you may like"
             />
           </div>
-          <div className="col-md-12 col-md-4">
-            <input style={{ width: "100%" }} type="text" />
+          <div className="col-md-12 col-lg-4">
+            <SearchBar />
           </div>
         </div>
       </div>
